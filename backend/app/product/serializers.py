@@ -26,3 +26,13 @@ class ProductSerializer(serializers.ModelSerializer):
             product.tags.add(tag)
         product.save()
         return product
+    
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'image')
+        read_only_fields = ('id',)
+        extra_kwargs = {
+            'image': {'required': True}
+        }
+        

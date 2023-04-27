@@ -1,7 +1,7 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from .models import Product, Tag
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ProductImageSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework import status
@@ -19,6 +19,9 @@ def hello_world(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response({'data': serializer.data, 'message': 'Hello, world!'})
+        if action == 'upload_image':
+            serializer = ProductImageSerializer 
+        else:
+            products = Product.objects.all()
+            serializer = ProductSerializer(products, many=True)
+            return Response({'data': serializer.data, 'message': 'Hello, world!'})
